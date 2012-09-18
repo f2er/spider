@@ -77,7 +77,8 @@ class DirectoryProcessor{
                       };
 
                 //缩略图
-                $thumb_url = "http://getimg.in/220x150s".preg_replace('/.html?/','',$htmName);
+                //$thumb_url = "http://getimg.in/220x150s".preg_replace('/.html?/','',$htmName);
+				$thumb_url = "http://192.168.50.104:8081/ued/webgame/220x150s/".preg_replace('/.html?/','',$htmName).".png";
                 $pngName = preg_replace('/html?/','png',$htmName);
                 $pngName = $this->dirPath.$pngName;
                 if (file_exists($pngName)) {

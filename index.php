@@ -21,7 +21,7 @@ $authorList = $dirProc->fetchAuthorList();
 <html>
   <head>
         <meta charset="UTF-8" />
-        <title>QZ组件</title>
+        <title>4399UED</title>
         <link rel="stylesheet" type="text/css" href="assets/reset.css">
         <link rel="stylesheet" type="text/css" href="assets/grid.css">
         <link rel="stylesheet" type="text/css" href="assets/style.css">
@@ -31,9 +31,9 @@ $authorList = $dirProc->fetchAuthorList();
     <div class="grid clearfix">
         <div id="main" class="grid-1">
             <div id="logo"><h1>Twitter Open Source</h1></div>
-                <h1>Qzone组件</h1>
-                <p>Qzone组件是被Qzone页面或者项目引入的复用代码。</p>
-                <p>Want to help? <a href="http://os.oa.com/cat/wr">前端开发组规范</a></p>
+                <h1>4399网页游戏前端组件</h1>
+                <p>网页游戏前端组件是被页游或者项目引入的复用代码。</p>
+                <!--<p>Want to help? <a href="http://os.oa.com/cat/wr">前端开发组规范</a></p>-->
               </div>
 
 <div class="grid grid-3">
@@ -50,10 +50,10 @@ $authorList = $dirProc->fetchAuthorList();
         <div id="recently-updated" class="grid-2 omega header">
           <h1>参数说明 </h1>
               <ol id="recently-updated-repos">
-                  <li>author ： RTX英文名（请统一，否则会统计出两个作者，大小写不敏感）</li>
+                  <li>author ： 情封（请统一，否则会统计出两个作者，大小写不敏感）</li>
                   <li>description ： 说明组件用途，中文，一段文字适宜</li>
               </ol>
-            <p>Sample：&lt;meta name="author" content="Chandleryu" /&gt;</p>
+            <p>Sample：&lt;meta name="author" content="情封" /&gt;</p>
             </div>
           </div>
 

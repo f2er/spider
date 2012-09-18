@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>UED观影会</title>
+<link href="css/ued_movie.css" rel="stylesheet" />
+<meta name="author" content="情封"/>
+<script src="js/jquery-1.3.1.min.js"></script>
+<script src="js/jquery.easing.1.3.js"></script>
+</head>
+<body>
+<div class="head">
+  <a href="#" class="logo"></a>
+</div>
+<div class="cont-fix">
+  <div class="cont-main">
+  	<div class="hd">
+  	  <h2 class="clearfix"><span>下期看什么电影？</span><span class="hd-tips"><i class="arrow"></i>本期投票于9月19日结束</span></h2>
+  	  <p>观影时间为下班时间6点半以后，时间控制在2个小时左右</p>
+  	</div>
+  	<div class="bd">
+  	  <div class="video-date clearfix">
+  	  <?php foreach($date as $key => $val ){?>	  
+  	  	<div  class="day day-<?php echo $val['num']?>" style="<?php if($key == 4){?>margin:0<?php }?>">
+  	  	  <em></em>
+          <span class="add-one">+1</span>
+  	  	  <p class="month"><?php echo $val['month']?></p>
+  	  	  <p class="date"><?php echo $val['date']?></p>
+  	  	  <p class="week"><?php echo  $val['week']?></p>
+  	  	  <span class="vote-num"><?php echo $val['votenum']?></span>
+  	  	  <a href="javascript:void(0)"  class="vote-btn">我要投票</a>
+  	  	</div>
+  	  <?php }?>
+  	  </div>
+  	</div>
+  </div>
+</div>
+<div class="cont-fix">
+  <div class="cont-main">
+  	<div class="hd">
+  	  <h2 class="clearfix"><span>下期看什么电影？</span><span class="hd-tips"><i class="arrow"></i>本期投票于9月19日结束</span></h2>
+  	  <p>2012年第2期(9.17~9.21) 观看影片投票</p>
+  	</div>
+  	<div class="bd">
+  	  <div class="videobox">
+  	  	<ul class="videolist clearfix">
+  	  	<?php foreach($video as $key => $val ){?>
+  	  	  <li>
+            <div class="video-wrap">
+  	  	  	  <img src="images/movie<?php echo $val['num']?>.jpg" width="310" height="438" alt="movie1" />
+  	  	    	<span class="shape">
+  	  	    	</span>
+  	  	    	<span class="intro">
+  	  	  	    <h3><?php echo $val['name']?></h3>
+				<?php echo $val['p']?>
+  	  	    	</span>
+            </div>
+            <span id="vnum<?php echo $val['id']?>" class="vote-num"><?php echo $val['count']?></span>
+  	  	  </li>
+  	  	<?php }?>
+  	  	</ul>
+  	  	<div class="video-intro clearfix">
+  	  	  <?php foreach($video as $key => $val ){?>
+  	  	  <ul class="video-intro-list">
+		  <?php foreach($val['who'] as $k => $v ){?>
+  	  	    <li><span><?php echo $v?></span></li>
+  	  	     <?php }?>
+            <li><input type="text" value="输入姓名" class="ipt-txt" onfocus="if(this.value=='输入姓名') this.value='';$(this).parents('li').children('.ipt-btn').show();" onblur="if(this.value=='') this.value='输入姓名';" />
+            
+			<input style="display:none" type="button" video='<?php echo $val['id']?>' value="+" class="ipt-btn" />
+            <?php if($adm == 1){?>
+            <input style="display:none" type="button" video='<?php echo $val['id']?>' value="-" class="ipt-btn" /></li>
+            <?php }?>
+            
+  	  	  </ul>
+  	  	  <?php }?>
+        </div>
+  	  </div>
+  	</div>
+  </div>
+</div>
+<div class="footer">
+  <p>©copyRight 2012 4399UED @阿正 清树 小鱼 小郭 _L_____内部资料 请勿外传 谢谢合作</p>
+</div>
+<script>
+$(".ipt-btn").click(function(){
+	var obj = $(this);
+	if(obj.val() == '+'){
+		var c = 'add';
+	}else{
+		var c = 'del';
+	}
+	var v = obj.parents('li').children('.ipt-txt');
+	if(v.val() && v.val() != '输入姓名'){
+		$.ajax({
+			url:'index.php?video='+$(this).attr('video')+'&who='+v.val()+"&c="+c, 
+			type:'post', 
+			dataType:'json', 
+			data:{"op":"videovote"},
+			success:function(rtn){
+					if(rtn > 0){
+						if(c == 'add'){
+							obj.parents('li').before('<li><span>'+v.val()+'</span></li>');
+							$('#vnum'+obj.attr('video')).html(Number($('#vnum'+obj.attr('video')).html())+1);
+					  		m = 0;
+						}else if(c =='del'){
+							location.reload();
+						}
+					}else{
+						alert('你已经投过票了``~');
+					}
+			} 
+		});	
+	}
+});
+$(document).ready(function() {
+	//Custom settings
+	var style_in = 'easeOutBounce';
+	var style_out = 'jswing';
+	var speed_in = 1000;
+	var speed_out = 300;	
+
+	//Calculation for corners
+	var neg = Math.round($('.videolist li .video-wrap').width() / 2) * (-1);	
+	var neh = Math.round($('.videolist li .video-wrap').height() / 2) * (-1);
+	var pos = neg * (-1);
+	var posh= neh * (-1);	
+	var out = pos * 2;
+	
+	$('.videolist li .video-wrap').each(function () {
+	
+		url = $(this).find('a').attr('href');
+		img = $(this).find('img').attr('src');
+		alt = $(this).find('img').attr('img');
+		
+		
+		$(this).append('<div class="topLeft"></div><div class="topRight"></div><div class="bottomLeft"></div><div class="bottomRight"></div>');
+		$(this).children('div').css('background-image','url('+ img + ')');
+
+		$(this).find('div.topLeft').css({top:0, left:0, width:pos , height:posh});	
+		$(this).find('div.topRight').css({top:0, left:pos, width:pos , height:posh});	
+		$(this).find('div.bottomLeft').css({bottom:0, left:0, width:pos , height:posh});	
+		$(this).find('div.bottomRight').css({bottom:0, left:pos, width:pos , height:posh});	
+
+	}).hover(function () {
+	
+		$(this).find('div.topLeft').stop(false, true).animate({top:neg, left:neg}, {duration:speed_out, easing:style_out});	
+		$(this).find('div.topRight').stop(false, true).animate({top:neg, left:out}, {duration:speed_out, easing:style_out});	
+		$(this).find('div.bottomLeft').stop(false, true).animate({bottom:neg, left:neg}, {duration:speed_out, easing:style_out});	
+		$(this).find('div.bottomRight').stop(false, true).animate({bottom:neg, left:out}, {duration:speed_out, easing:style_out});	
+				
+	},
+	
+	function () {
+
+		$(this).find('div.topLeft').stop(false, true).animate({top:0, left:0}, {duration:speed_in, easing:style_in});	
+		$(this).find('div.topRight').stop(false, true).animate({top:0, left:pos}, {duration:speed_in, easing:style_in});	
+		$(this).find('div.bottomLeft').stop(false, true).animate({bottom:0, left:0}, {duration:speed_in, easing:style_in});	
+		$(this).find('div.bottomRight').stop(false, true).animate({bottom:0, left:pos}, {duration:speed_in, easing:style_in});	
+	
+	});
+$(".day").click(function(){
+		var obj = $(this);
+		var d = $(this).children(".date").html();
+
+		$.ajax({
+			url:'index.php?d='+d, 
+			type:'post', 
+			dataType:'json', 
+			data:{"op":"weekvote"},
+			success:function(rtn){
+					if(rtn > 0){
+						obj.find('span.add-one').addClass("vote-ani");
+						obj.children(".vote-num").html(Number(obj.children(".vote-num").html())+1);
+						//location.reload();
+					}else{
+						alert('你已经投过票了``~');
+					}
+			} 
+		});			
+});
+ var COLORS = ['#f95231', '#f97931', '#f98e31', '#f9b531', '#f9e131'];
+ var $votes = $('.day .vote-num');
+ var temp = [];
+ $votes.each(function (i, el) {
+   var text = $(el).text();
+   if($.inArray(text, temp) === -1) {
+     temp.push(text);
+   }
+ });
+ temp.sort(function (a, b) { return b-a; });
+ $votes.each(function (i, el) {
+   var $el = $(el);
+   $el.closest('.day').css('background', COLORS[temp.indexOf($el.text())])
+ });
+
+});
+
+</script>
+</body>
+</html>

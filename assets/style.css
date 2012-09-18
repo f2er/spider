@@ -39,7 +39,7 @@ a:hover {
 
 #main {
   height: 450px;
-  text-align: center;
+  /*text-align: center;*/
 }
 
 #main, div.header, li.repo {
